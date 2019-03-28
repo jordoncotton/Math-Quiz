@@ -18,7 +18,7 @@ namespace Math_Quiz
         int randMath;
         int check;
         int Amount = 0;
-
+        //add comments
         public MathQuiz()
         {
             InitializeComponent();
@@ -167,4 +167,4 @@ namespace Math_Quiz
         }
     }
 }
-  
+ 
