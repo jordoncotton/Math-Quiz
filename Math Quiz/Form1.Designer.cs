@@ -35,6 +35,8 @@
             this.equal = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.score = new System.Windows.Forms.Label();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.LoadButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Symbol)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,11 +109,33 @@
             this.score.TabIndex = 6;
             this.score.Text = "score";
             // 
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(71, 179);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(134, 46);
+            this.SaveButton.TabIndex = 7;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // LoadButton
+            // 
+            this.LoadButton.Location = new System.Drawing.Point(368, 179);
+            this.LoadButton.Name = "LoadButton";
+            this.LoadButton.Size = new System.Drawing.Size(133, 46);
+            this.LoadButton.TabIndex = 8;
+            this.LoadButton.Text = "Load";
+            this.LoadButton.UseVisualStyleBackColor = true;
+            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+            // 
             // MathQuiz
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 172);
+            this.ClientSize = new System.Drawing.Size(644, 237);
+            this.Controls.Add(this.LoadButton);
+            this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.score);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.equal);
@@ -137,6 +161,8 @@
         private System.Windows.Forms.Label equal;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label score;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button LoadButton;
     }
 }
 

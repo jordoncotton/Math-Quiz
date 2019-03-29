@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Math_Quiz
 {
@@ -17,13 +19,16 @@ namespace Math_Quiz
         int totalA;
         int randMath;
         int check;
-        int Amount = 0;
+        int AmountCorrect = 0;
+        int totalQuestions;
+        
         //add comments
         public MathQuiz()
         {
             InitializeComponent();
             Start();
-            
+            SaveButton.KeyPress += KeyisDown;
+            LoadButton.KeyPress += KeyisDown;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -40,9 +45,8 @@ namespace Math_Quiz
             {
                 check = 1;
                 checkStart();
-                
             }
-
+           
             else if (e.KeyChar == (char)Keys.M || e.KeyChar == 109)
             {
                 check = 2;
@@ -74,10 +78,16 @@ namespace Math_Quiz
             randMath = ranNumber.Next(1, 5);
             Symbol.Image = Properties.Resources.qq;
 
-            if (randMath < Amount)
+            if (totalQuestions == 7)
             {
-                Application.Exit();
-                Amount++;
+                var result = MessageBox.Show("Your score was: " + AmountCorrect);
+                if (result == DialogResult.OK)
+                {
+                    save();
+                    Close();
+                }
+
+                return;
             }
             
             switch (randMath)
@@ -105,6 +115,21 @@ namespace Math_Quiz
             num1.Text = Convert.ToString(numA);
             num2.Text = Convert.ToString(numB);
             total.Text = Convert.ToString(totalA);
+
+            totalQuestions++;
+        }
+
+        public void save()
+        {
+            JsonSerializer serializer = new JsonSerializer();
+            TextWriter writer = new StreamWriter("MathFile");
+            serializer.Serialize(writer, AmountCorrect);
+            writer.Close();
+        }
+
+        public void load()
+        {
+            AmountCorrect = JsonConvert.DeserializeObject<int>(File.ReadAllText("Mathfile"));
         }
 
         public void addNum()
@@ -128,32 +153,32 @@ namespace Math_Quiz
         {
             if (check == randMath)
             {
-                Amount++;
+                AmountCorrect++;
 
                 switch (randMath)
                 {
                     case 1:
                         Symbol.Image = Properties.Resources.plus;
                         MessageBox.Show("Correct");
-                        score.Text = "score:" + Amount;
+                        score.Text = "score:" + AmountCorrect;
                         Start();
                         break;
                     case 2:
                         Symbol.Image = Properties.Resources.minus;
                         MessageBox.Show("Correct");
-                        score.Text = "score:" + Amount;
+                        score.Text = "score:" + AmountCorrect;
                         Start();
                         break;
                     case 3:
                         Symbol.Image = Properties.Resources.multi;
                         MessageBox.Show("Correct");
-                        score.Text = "score:" + Amount;
+                        score.Text = "score:" + AmountCorrect;
                         Start();
                         break;
                     case 4:
                         Symbol.Image = Properties.Resources.divide;
                         MessageBox.Show("Correct");
-                        score.Text = "score:" + Amount;
+                        score.Text = "score:" + AmountCorrect;
                         Start();
                         break;
                 }
@@ -164,6 +189,18 @@ namespace Math_Quiz
                 Symbol.Image = Properties.Resources.qq;
                 Start();
             }
+        }
+       
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            save();
+        }
+
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            load();
+            score.Text = "score:" + AmountCorrect;
+            Update();
         }
     }
 }
