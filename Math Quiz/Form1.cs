@@ -121,15 +121,87 @@ namespace Math_Quiz
 
         public void save()
         {
+            /* gives math quiz a new instance of math quiz then assigns
+             the new instance of this*/ 
+            SaveQuiz mathquiz = new SaveQuiz();
+
+            //Assigning variables to save so the program will save what is being used.
+            mathquiz.numA = numA;
+            mathquiz.numB = numB;
+            mathquiz.totalA = totalA;
+            mathquiz.randMath = randMath;
+            mathquiz.check = check;
+            mathquiz.AmountCorrect = AmountCorrect;
+            mathquiz.totalQuestions = totalQuestions;
+
             JsonSerializer serializer = new JsonSerializer();
             TextWriter writer = new StreamWriter("MathFile");
-            serializer.Serialize(writer, AmountCorrect);
+            serializer.Serialize(writer, mathquiz);
             writer.Close();
+        }
+
+        public void StartAfterLoad()
+        {
+            if (totalQuestions == 7)
+            {
+                var result = MessageBox.Show("Your score was: " + AmountCorrect);
+                if (result == DialogResult.OK)
+                {
+                    save();
+                    Close();
+                }
+
+                return;
+            }
+
+            switch (randMath)
+            {
+                case 1:
+                    addNum();
+                    Console.WriteLine("Your score:" + score);
+                    break;
+                case 2:
+                    subtractNum();
+                    Console.WriteLine("Your score:" + score);
+                    break;
+                case 3:
+                    multiplyNum();
+                    Console.WriteLine("Your score:" + score);
+                    break;
+                case 4:
+                    divideNum();
+                    Console.WriteLine("Your score:" + score);
+                    break;
+                default:
+                    Console.WriteLine("Your score:" + score);
+                    break;
+            }
+            num1.Text = Convert.ToString(numA);
+            num2.Text = Convert.ToString(numB);
+            total.Text = Convert.ToString(totalA);
+
+            totalQuestions++;
         }
 
         public void load()
         {
-            AmountCorrect = JsonConvert.DeserializeObject<int>(File.ReadAllText("Mathfile"));
+            // Type mathquiz load will assign to deserialize to load the quiz from the quiz that was saved.
+            SaveQuiz load = JsonConvert.DeserializeObject<SaveQuiz>(File.ReadAllText("Mathfile"));
+
+            //assigning all variables that were used to load so the program will load everything in the quiz.
+
+            randMath = load.randMath;
+            check = load.check;
+            AmountCorrect = load.AmountCorrect;
+            totalQuestions = load.totalQuestions;
+            numA = load.numA;
+            numB = load.numB;
+            totalA = load.totalA;
+            num1.Text = Convert.ToString(numA);
+            num2.Text = Convert.ToString(numB);
+            total.Text = Convert.ToString(totalA);
+
+            StartAfterLoad();
         }
 
         public void addNum()
